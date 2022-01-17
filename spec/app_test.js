@@ -4,17 +4,17 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var bicicletaRouter = require('./routes/bicicletas');
-var bicicletaAPIRouter = require('./routes/api/bicicletas');
-var usuarioAPIRouter = require('./routes/api/usuarios');
+var indexRouter = require('../routes/index');
+var usersRouter = require('../routes/users');
+var bicicletaRouter = require('../routes/bicicletas');
+var bicicletaAPIRouter = require('../routes/api/bicicletas');
+var usuarioAPIRouter = require('../routes/api/usuarios');
 
 var app = express();
 
 var mongoose = require('mongoose');
 
-var mongoDB = 'mongodb://localhost/red_bicicletas';
+var mongoDB = 'mongodb://localhost/testdb';
 mongoose.connect(mongoDB, { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;

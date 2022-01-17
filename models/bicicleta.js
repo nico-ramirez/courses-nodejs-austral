@@ -1,39 +1,50 @@
-var Bicicleta = function (id, color, modelo, ubicacion) {
-    this.id = id;
-    this.color = color;
-    this.modelo = modelo;
-    this.ubicacion = ubicacion;
-}
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-Bicicleta.prototype.toString = function () {
-    return `id: ${this.id} | color: ${this.color}`;
-}
-
-Bicicleta.allBicis = [];
-Bicicleta.add = function(aBici){
-    Bicicleta.allBicis.push(aBici);
-}
-
-Bicicleta.findById = function(id){
-    var bici = Bicicleta.allBicis.find(x => x.id == id);
-    if (!bici)
-        throw new Error(`No existe una bicicleta con el id ${id}`);
-    return bici;
-}
-
-Bicicleta.removeById = function(id){
-    for(var i = 0; i < Bicicleta.allBicis.length; i++){
-        if (Bicicleta.allBicis[i].id == id){
-            Bicicleta.allBicis.splice(i, 1);
-            break;
-        }
+var bicicletaSchema = new Schema({
+    code: Number,
+    color: String,
+    modelo: String,
+    ubicacion: {
+        type: [Number], index: { type: '2dsphere', sparse: true }
     }
+});
+
+bicicletaSchema.statics.createInstance = function(code, color, modelo, ubicacion){
+    return new this({
+        code: code,
+        color: color,
+        modelo: modelo,
+        ubicacion: ubicacion
+    });
+};
+
+bicicletaSchema.methods.toString = function() {
+    return 'code: ' + this.code + ' | color: ' + this.color;
+};
+
+bicicletaSchema.statics.allBicis = function(callback) {
+    return this.find({}, callback);
+};
+
+bicicletaSchema.statics.add = function(bici, callback){
+    this.create(bici, callback);
 }
 
-var a = new Bicicleta(1, 'rojo', 'urbana', [-34.60838629640303, -58.389220132476694]);
-var b = new Bicicleta(2, 'blanca', 'urbana', [-34.61106179220947, -58.396666106936536]);
+bicicletaSchema.statics.findByCode = function(code, callback){
+    return this.findOne({code: code}, callback);
+}
 
-Bicicleta.add(a);
-Bicicleta.add(b);
+bicicletaSchema.statics.removeByCode = function(code, callback){
+    return this.deleteOne({code: code}, callback);
+}
 
-module.exports = Bicicleta;
+bicicletaSchema.statics.update = function(bici, callback){
+    return this.update(bici, callback);
+}
+
+bicicletaSchema.statics.removeAll = function(callback){
+    return this.deleteMany({},callback);
+}
+
+module.exports = mongoose.model('Bicicleta', bicicletaSchema);
