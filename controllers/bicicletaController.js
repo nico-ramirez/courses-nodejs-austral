@@ -23,7 +23,7 @@ exports.update_get = function(req,res){
 
 exports.update_post = function(req, res){
     var bici = Bicicleta.findById(req.params.id);
-    bici.id = req.body.id;
+    bici.code = req.body.code;
     bici.color = req.body.color;
     bici.modelo = req.body.modelo;
     bici.ubicacion = [req.body.lat, req.body.lng];

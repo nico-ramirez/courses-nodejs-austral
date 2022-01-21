@@ -19,7 +19,7 @@ exports.create = function(req, res){
 };
 
 exports.reservar = function(res, req){
-    Usuario.findById(req.body.id, function(err, usuario){
+    Usuario.findById(req.body.code, function(err, usuario){
         usuario.reservar(req.body.bici_id, req.body.desde, req.body.hasta, function(err){
             console.log('reserva guardada');
             res.status(200).send();
