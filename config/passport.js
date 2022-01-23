@@ -19,7 +19,7 @@ passport.serializeUser(function(user, callback){
 });
 
 passport.deserializeUser(function(user, callback){
-    Usuario.findById(id, function(err, user){
+    Usuario.findById(user.id, function(err, user){
         callback(err, user); 
     });
 });

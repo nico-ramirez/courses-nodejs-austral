@@ -8,13 +8,22 @@ exports.list = function(req, res){
     });
 };
 
+// exports.create = function(req, res){
+//     var usuario = Usuario.createInstance(req.body.nombre);
+//     Usuario.add(usuario, function(err, newUser){
+//         if(err) console.log(err);
+//         res.status(200).json({
+//             usuario: newUser
+//         });
+//     });
+// };
+
+
 exports.create = function(req, res){
-    var usuario = Usuario.createInstance(req.body.nombre);
-    Usuario.add(usuario, function(err, newUser){
-        if(err) console.log(err);
-        res.status(200).json({
-            usuario: newUser
-        });
+    var usuario = new Usuario({nombre: req.body.nombre, email: req.body.email, password: req.body.password});
+    usuario.save(function(err){
+        if(err) return res.status(500).json(err);
+        res.status(200).json(usuario);
     });
 };
 
