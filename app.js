@@ -90,6 +90,10 @@ app.use('/api/auth', authAPIRouter);
 app.use('/api/bicicletas', validateUser, bycicleAPIRouter);
 app.use('/api/usuarios', userAPIRouter);
 
+app.use('/privacy_policy', function(req, res) {
+  res.sendFile('public/privacy_policy.html');
+});
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
